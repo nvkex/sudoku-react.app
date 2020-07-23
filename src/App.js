@@ -1,26 +1,51 @@
 import React from 'react';
-import logo from './logo.svg';
+import generator from 'sudoku';
+
+import SudokuBoard from './components/SudokuBoard';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+function generateBoard(){
+  const raw = generator.makepuzzle();
+  const result = {rows: []};
+
+  for(let i = 0;i<9; i++){
+    const row = {cols: [], index: i};
+    for(let j = 0;j< 9;j++){
+      const value = raw[i*9+j];
+      const col = {
+        row: i,
+        col: j,
+        value: value,
+        readOnly: value !== null
+      }
+      row.cols.push(col);
+    }
+    result.rows.push(row);
+  }
+
+  return result;
+}
+
+
+class  App extends React.Component{
+  constructor(props){
+    super(props);
+    this.state = {
+      sudoku: generateBoard()
+    } 
+  }
+  render(){
+    return (
+      <div className="App">
+        <header className="App-header">
+          <h1>Sudoku</h1>
+        </header>
+        <SudokuBoard board={this.state.sudoku}/>
+      </div>
+    );
+  }
+  
 }
 
 export default App;
