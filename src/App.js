@@ -1,7 +1,7 @@
 import React from 'react';
 import produce from 'immer';
 
-import {generateBoard, checkSolution} from './lib/sudoku';
+import {generateBoard, checkSolution, shareUrl} from './lib/sudoku';
 import SudokuBoard from './components/SudokuBoard';
 import './App.css';
 
@@ -35,6 +35,7 @@ class App extends React.Component {
           const solved = checkSolution(state.sudoku);
           if(solved){
             state.sudoku.solveTime = new Date();
+            state.sudoku.shareUrl = shareUrl(state.sudoku);
           }
         }
       })
